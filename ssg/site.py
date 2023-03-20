@@ -1,5 +1,5 @@
 import sys
-from ssg import extensions
+from ssg import extensions, hooks
 from pathlib import Path
 
 
@@ -29,6 +29,7 @@ class Site:
 
     def build(self):
         extensions.load_bundled(extensions)
+        hooks.event(self.source, self.parsers, "collect_files")
 
         self.dest.mkdir(parents=True, exist_ok=True)
         for path in self.source.rglob("*"):
